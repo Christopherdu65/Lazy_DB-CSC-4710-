@@ -6,7 +6,7 @@ We have a total of 10 stores each in different stores each in different cities a
 
 phpMyAdmin is used as a web interface for handling the database administration and queries. By this, backend acess to lazy_DN is made possible for fetching, updating and analyzing data on the database sever. Our consumers need to register with an account before being able to order anything in our store. After successful registration. A consumer can order many products under one specific order and get added to order_item list.
 
-{Insert ER Diagam}
+https://github.com/Christopherdu65/Lazy_DB-CSC-4710-/blob/main/E-R%20Diagram.png
 
 ## SQL DDL
 
