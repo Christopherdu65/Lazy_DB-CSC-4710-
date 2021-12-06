@@ -4,7 +4,7 @@ This is a project developed for CSC 4710 at gsu
 We decided to mock a chain of online stores that sells a variety of products notably in the food industry. 
 We have a total of 10 stores each in different stores each in different cities around the world. Each product is identified by its upc, and different stores have different inventory and price for a specefic products. Some products are also part of a promotion, so if bought, consumner will see a reduction of price when they decide to checkout. 
 
-phpMyAdmin is used as a web interface for handling the database administration and queries. By this, backend acess to lazy_DN is made possible for fetching, updating and analyzing data on the database sever. Our consumers need to register with an account before being able to order anything in our store. After successful registration. A consumer can order many products under one specific order and get added to order_item list.
+phpMyAdmin is used as a web interface for handling the database administration and queries. By this, backend acess to lazy_DB is made possible for fetching, updating and analyzing data on the database sever. Our consumers need to register with an account before being able to order anything in our store. After successful registration. A consumer can order many products under one specific order and get added to order_item list.
 
 <img width="551" alt="E-R Diagram" src="https://user-images.githubusercontent.com/83239858/144768634-b5f47eef-bd4c-4bab-bed3-f4139c6f45f5.png">
 
