@@ -1,5 +1,6 @@
 # Lazy_DB-CSC-4710
 This is a project developed for CSC 4710 at gsu
+webpage: https://codd.cs.gsu.edu/~mchristopherraoul1/phpMyAdmin/
 
 We decided to mock a chain of online stores that sells a variety of products notably in the food industry. 
 We have a total of 10 stores each in different stores each in different cities around the world. Each product is identified by its upc, and different stores have different inventory and price for a specefic products. Some products are also part of a promotion, so if bought, consumner will see a reduction of price when they decide to checkout. 
