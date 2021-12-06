@@ -1466,10 +1466,10 @@ There are two options when it comes to testing.
 - [phpMyAdmin](https://codd.cs.gsu.edu/~mchristopherraoul1/phpMyAdmin/)
 - Locally using maria db or mySql
 
-you can use our online database using [phpMyAdmin](https://codd.cs.gsu.edu/~mchristopherraoul1/phpMyAdmin/) and login with the following credentials
-username: ***mchristopherraoul1***
-password: ***mchristopherraoul1***
+you can use our online database using [phpMyAdmin](https://codd.cs.gsu.edu/~mchristopherraoul1/phpMyAdmin/) and login with the following credentials:
+- username: ***mchristopherraoul1***
+- password: ***mchristopherraoul1***
 All of the dll and Insert statements were already run on there, so one could just go and run the queries in the sql editor.
 (**Not recommended**) You can also use the DLL and Insert sql files to create all of the tables locally with their respective data using mariaDb or mySql. However, you would need to run the update.php with the product json file in order to update product names. Since there were also some changes done manually on phpMyAdmin, you will not be able to have the database completetely up to date locally.
-**Note: Some of the queries will not return desired result if you decide to run it locally. 
+**Note: Some of the queries will not return desired result if you decide to run it locally.**
 ## Video Presentation
