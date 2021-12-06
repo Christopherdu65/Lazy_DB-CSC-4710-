@@ -1,0 +1,143 @@
+
+-- lazy_db.customer definition
+
+CREATE TABLE `customer` (
+  `customer_id` int(11) NOT NULL,
+  `name` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.vendor definition
+
+CREATE TABLE `vendor` (
+  `vendor_id` int(11) NOT NULL,
+  `name` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`vendor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.order_ definition
+
+CREATE TABLE `order_` (
+  `year` int(11) NOT NULL,
+  `month` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `week` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `customer_id` (`customer_id`),
+  CONSTRAINT `order__ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.product definition
+
+CREATE TABLE `product` (
+  `upc` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_type` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `brand` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`upc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.order_item definition
+
+CREATE TABLE `order_item` (
+  `upc` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_id` int(11) NOT NULL,
+  PRIMARY KEY (`upc`,`order_id`),
+  KEY `order_id` (`order_id`),
+  CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`upc`) REFERENCES `product` (`upc`),
+  CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `order_` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.deals definition
+
+CREATE TABLE `deals` (
+  `deal_id` int(11) NOT NULL,
+  PRIMARY KEY (`deal_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.promotion definition
+
+CREATE TABLE `promotion` (
+  `deal_id` int(11) NOT NULL,
+  `upc` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `discount` decimal(5,2) NOT NULL,
+  PRIMARY KEY (`deal_id`,`upc`),
+  KEY `upc` (`upc`),
+  CONSTRAINT `promotion_ibfk_1` FOREIGN KEY (`upc`) REFERENCES `product` (`upc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.inventory definition
+
+CREATE TABLE `inventory` (
+  `inventory_id` int(11) NOT NULL,
+  `upc` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_count` int(11) NOT NULL,
+  PRIMARY KEY (`inventory_id`),
+  KEY `upc` (`upc`),
+  CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`upc`) REFERENCES `product` (`upc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- lazy_db.location definition
+
+CREATE TABLE `location` (
+  `city` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `income_range` int(11) NOT NULL,
+  PRIMARY KEY (`city`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- lazy_db.store definition
+
+CREATE TABLE `store` (
+  `open_time` time NOT NULL,
+  `close_time` time NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `city` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`store_id`),
+  KEY `city` (`city`),
+  CONSTRAINT `store_ibfk_1` FOREIGN KEY (`city`) REFERENCES `location` (`city`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.check_product definition
+
+CREATE TABLE `check_product` (
+  `store_id` int(11) NOT NULL,
+  `inventory_id` int(11) NOT NULL,
+  `upc` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`store_id`,`inventory_id`,`upc`),
+  KEY `inventory_id` (`inventory_id`),
+  KEY `upc` (`upc`),
+  CONSTRAINT `check_product_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`),
+  CONSTRAINT `check_product_ibfk_2` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`inventory_id`),
+  CONSTRAINT `check_product_ibfk_3` FOREIGN KEY (`upc`) REFERENCES `product` (`upc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.has_prod definition
+
+CREATE TABLE `has_prod` (
+  `upc` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `price` decimal(19,2) NOT NULL,
+  `currency` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`upc`,`store_id`),
+  KEY `store_id` (`store_id`),
+  CONSTRAINT `has_prod_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`),
+  CONSTRAINT `has_prod_ibfk_2` FOREIGN KEY (`upc`) REFERENCES `product` (`upc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- lazy_db.supply definition
+
+CREATE TABLE `supply` (
+  `vendor_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `upc` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supply_count` int(11) NOT NULL,
+  PRIMARY KEY (`vendor_id`,`store_id`,`upc`),
+  KEY `store_id` (`store_id`),
+  KEY `upc` (`upc`),
+  CONSTRAINT `supply_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendor` (`vendor_id`),
+  CONSTRAINT `supply_ibfk_2` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`),
+  CONSTRAINT `supply_ibfk_3` FOREIGN KEY (`upc`) REFERENCES `product` (`upc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
