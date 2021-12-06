@@ -1464,28 +1464,25 @@ all run on a sql server. All the generated data have been commited here as excel
 1. Find the top 5 products with the lowest stock in the Atlanta store.
 
 
-
-select inventory.upc, inventory.inventory_id, store.city, product_count from check_product, store, inventory where inventory.inventory_id = check_product.inventory_id and store.store_id = check_product.store_id and city = 'Atlanta' order by product_count limit 5
+```select inventory.upc, inventory.inventory_id, store.city, product_count from check_product, store, inventory where inventory.inventory_id = check_product.inventory_id and store.store_id = check_product.store_id and city = 'Atlanta' order by product_count limit 5```
 
 
 2. how often are pie and 7up purchased together?
 
 
-
-
-select count(t2.order_id) As 'Amount Purchased Together' from order_item as t1, order_item as t2 where  t1.upc = 0621911607838 and t2.upc = 7858651552941 and t1.order_id = t2.order_id 
+```select count(t2.order_id) As 'Amount Purchased Together' from order_item as t1, order_item as t2 where  t1.upc = 0621911607838 and t2.upc = 7858651552941 and t1.order_id = t2.order_id ```
 
 3. What are the best 3 years in terms of sales?
 
 
 
- select year, amount_sold *price as total, sum(amount_sold * price) as sales from order_item inner join has_prod on order_item.upc = has_prod.upc inner join order_ on order_item.order_id = order_.order_id  group by year order by sales DESC limit 3 
+ ```select year, amount_sold *price as total, sum(amount_sold * price) as sales from order_item inner join has_prod on order_item.upc = has_prod.upc inner join order_ on order_item.order_id = order_.order_id  group by year order by sales DESC limit 3 ```
 
 4. what month did fuji apples sell the best?
 
 
 
-select upc, sum(amount_sold) as sales, month, year from order_item natural join order_ natural join product where product.name = 'fuji apples' 
+```select upc, sum(amount_sold) as sales, month, year from order_item natural join order_ natural join product where product.name = 'fuji apples'```
 
 
 
@@ -1493,7 +1490,7 @@ select upc, sum(amount_sold) as sales, month, year from order_item natural join 
 5. What are the top 5 weeks this year(2021) in terms of sales?
 
 
-select year, week, amount_sold *price as total, sum(amount_sold * price) as sales from order_item inner join has_prod on order_item.upc = has_prod.upc inner join order_ on order_item.order_id = order_.order_id where year = 2021 group by week order by sales DESC limit 5; 
+```select year, week, amount_sold *price as total, sum(amount_sold * price) as sales from order_item inner join has_prod on order_item.upc = has_prod.upc inner join order_ on order_item.order_id = order_.order_id where year = 2021 group by week order by sales DESC limit 5;```
 
 ## Testing
 
@@ -1504,7 +1501,13 @@ There are two options when it comes to testing.
 you can use our online database using [phpMyAdmin](https://codd.cs.gsu.edu/~mchristopherraoul1/phpMyAdmin/) and login with the following credentials:
 - username: ***mchristopherraoul1***
 - password: ***mchristopherraoul1***
+
 All of the dll and Insert statements were already run on there, so one could just go and run the queries in the sql editor.
+
 (**Not recommended**) You can also use the DLL and Insert sql files to create all of the tables locally with their respective data using mariaDb or mySql. However, you would need to run the update.php with the product json file in order to update product names. Since there were also some changes done manually on phpMyAdmin, you will not be able to have the database completetely up to date locally.
+
 **Note: Some of the queries will not return desired result if you decide to run it locally.**
+
 ## Video Presentation
+
+[video presentation](https://www.youtube.com/watch?v=bwi_S8K53dI)
