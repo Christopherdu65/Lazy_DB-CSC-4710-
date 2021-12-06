@@ -1,12 +1,14 @@
 # Lazy_DB-CSC-4710
 This is a project developed for CSC 4710 at gsu
-## ER Diagram
+
 We decided to mock a chain of online stores that sells a variety of products notably in the food industry. 
 We have a total of 10 stores each in different stores each in different cities around the world. Each product is identified by its upc, and different stores have different inventory and price for a specefic products. Some products are also part of a promotion, so if bought, consumner will see a reduction of price when they decide to checkout. 
 
 phpMyAdmin is used as a web interface for handling the database administration and queries. By this, backend acess to lazy_DB is made possible for fetching, updating and analyzing data on the database sever. Our consumers need to register with an account before being able to order anything in our store. After successful registration. A consumer can order many products under one specific order and get added to order_item list.
 
-<img width="551" alt="E-R Diagram" src="https://user-images.githubusercontent.com/83239858/144768634-b5f47eef-bd4c-4bab-bed3-f4139c6f45f5.png">
+## ER Diagram
+<img width="530" alt="E-R Diagram" src="https://user-images.githubusercontent.com/83239858/144922246-640433ce-f29f-41b5-b241-361af089c34d.png">
+
 
 
 ## SQL DDL and Insert
@@ -1459,6 +1461,39 @@ all run on a sql server. All the generated data have been commited here as excel
 **Note: Some of the data was edited manually once the appropriate tables were created. So the data in the INSERT file might be sligthly different from our actual data.**
 
 ## Queries Run
+1. Find the top 5 products with the lowest stock in the Atlanta store.
+
+
+
+select inventory.upc, inventory.inventory_id, store.city, product_count from check_product, store, inventory where inventory.inventory_id = check_product.inventory_id and store.store_id = check_product.store_id and city = 'Atlanta' order by product_count limit 5
+
+
+2. how often are pie and 7up purchased together?
+
+
+
+
+select count(t2.order_id) As 'Amount Purchased Together' from order_item as t1, order_item as t2 where  t1.upc = 0621911607838 and t2.upc = 7858651552941 and t1.order_id = t2.order_id 
+
+3. What are the best 3 years in terms of sales?
+
+
+
+ select year, amount_sold *price as total, sum(amount_sold * price) as sales from order_item inner join has_prod on order_item.upc = has_prod.upc inner join order_ on order_item.order_id = order_.order_id  group by year order by sales DESC limit 3 
+
+4. what month did fuji apples sell the best?
+
+
+
+select upc, sum(amount_sold) as sales, month, year from order_item natural join order_ natural join product where product.name = 'fuji apples' 
+
+
+
+
+5. What are the top 5 weeks this year(2021) in terms of sales?
+
+
+select year, week, amount_sold *price as total, sum(amount_sold * price) as sales from order_item inner join has_prod on order_item.upc = has_prod.upc inner join order_ on order_item.order_id = order_.order_id where year = 2021 group by week order by sales DESC limit 5; 
 
 ## Testing
 
